@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#0b1020">
+  <meta name="description" content="PAOS — Personal Academic Operating System">
+  <title>PAOS — Personal Academic Operating System</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div id="app">
+
+    <aside class="sidebar" id="sidebar">
+      <div class="brand">
+        <div class="brand-mark">P</div>
+        <div>
+          <strong>PAOS</strong>
+          <span>Academic OS</span>
+        </div>
+      </div>
+
+      <div class="profile-mini">
+        <div class="avatar" id="profileAvatar">S</div>
+        <div class="profile-mini-copy">
+          <strong id="profileName">Student</strong>
+          <span id="sidebarProgressText">0% overall progress</span>
+        </div>
+      </div>
+
+      <nav class="main-nav">
+        <button class="nav-item active" data-page="dashboard"><span>⌂</span> Dashboard</button>
+        <button class="nav-item" data-page="academic"><span>▦</span> Academic</button>
+        <button class="nav-item" data-page="planner"><span>◫</span> Planner</button>
+        <button class="nav-item" data-page="study"><span>◷</span> Study Tracker</button>
+        <button class="nav-item" data-page="tests"><span>✓</span> Tests</button>
+        <button class="nav-item" data-page="revision"><span>↻</span> Smart Revision <b id="revisionBadge">0</b></button>
+        <button class="nav-item" data-page="mistakes"><span>!</span> Mistake Bank <b id="riskBadge">0</b></button>
+        <button class="nav-item" data-page="intelligence"><span>✦</span> Intelligence</button>
+        <button class="nav-item" data-page="discipline"><span>◆</span> Discipline</button>
+        <button class="nav-item" data-page="analytics"><span>◒</span> Analytics</button>
+        <button class="nav-item" data-page="settings"><span>⚙</span> Settings</button>
+      </nav>
+
+      <div class="sidebar-progress">
+        <div class="section-label">Overall Progress</div>
+        <div class="progress-track"><div id="sidebarProgress" class="progress-fill"></div></div>
+        <small id="sidebarProgressText">0%</small>
+      </div>
+
+      <div class="sidebar-footer">
+        <span>PAOS v1.0</span>
+        <span>Local-first</span>
+      </div>
+    </aside>
+
+    <main class="main">
+      <header class="topbar">
+        <div class="topbar-left">
+          <button class="icon-btn mobile-menu" id="mobileMenu" aria-label="Menu">☰</button>
+          <div>
+            <div class="eyebrow" id="currentDate">Today</div>
+            <h1 id="pageTitle">Dashboard</h1>
+            <p id="pageSubtitle">Your academic command centre.</p>
+          </div>
+        </div>
+        <div class="topbar-actions">
+          <button class="ghost-btn" data-action="quick-add">＋ Quick Add</button>
+          <button class="icon-btn" data-action="open-search" aria-label="Search">⌕</button>
+        </div>
+      </header>
+
+      <div class="content">
+
+        <!-- DASHBOARD -->
+        <section class="page active" id="page-dashboard">
+          <div class="hero-row">
+            <div>
+              <span class="pill">Today</span>
+              <h2>Stay ahead of the syllabus.</h2>
+              <p>PAOS turns your academic data into the next action that matters most.</p>
+            </div>
+            <button class="primary-btn" data-action="quick-add">＋ Add activity</button>
+          </div>
+
+          <div class="metric-grid">
+            <article class="metric-card">
+              <span>Study Hours</span>
+              <strong id="dashStudyHours">0h</strong>
+              <small id="dashStudyMeta">0 / 6h today</small>
+              <div class="progress-track"><div id="dashStudyBar" class="progress-fill"></div></div>
+              <div id="dashStudyProgress" class="metric-progress-text">0%</div>
+            </article>
+            <article class="metric-card">
+              <span>Discipline</span>
+              <strong id="dashDiscipline">0%</strong>
+              <small id="dashDisciplineMeta">Plan adherence</small>
+            </article>
+            <article class="metric-card">
+              <span>Attendance</span>
+              <strong id="dashAttendance">0%</strong>
+              <small id="dashAttendanceMeta">Academic coverage</small>
+            </article>
+            <article class="metric-card">
+              <span>Target</span>
+              <strong id="dashTarget">0%</strong>
+              <small id="dashTargetMeta">Overall target progress</small>
+            </article>
+            <article class="metric-card">
+              <span>Backlog</span>
+              <strong id="dashBacklog">0</strong>
+              <small id="dashBacklogMeta">Open tasks</small>
+            </article>
+            <article class="metric-card risk-card">
+              <span>Risk Score</span>
+              <strong id="dashRiskScore">0</strong>
+              <small id="dashRiskStatus">Low risk</small>
+            </article>
+          </div>
+
+          <div class="dashboard-grid">
+            <article class="panel span-8">
+              <div class="panel-head">
+                <div>
+                  <h3>Next Best Action</h3>
+                  <p>What PAOS thinks you should do next.</p>
+                </div>
+                <span class="status-dot"></span>
+              </div>
+              <div class="next-action">
+                <div class="action-icon">✦</div>
+                <div>
+                  <h2 id="nextActionTitle">Start your next focused session</h2>
+                  <p id="nextActionReason">PAOS will calculate this from your schedule and progress.</p>
+                  <div id="nextActionTags" class="tag-row"></div>
+                </div>
+              </div>
+              <div class="action-stats">
+                <div><span>Why</span><strong id="nextActionWhy">—</strong></div>
+                <div><span>Impact</span><strong id="nextActionImpact">—</strong></div>
+                <div><span>Effort</span><strong id="nextActionEffort">—</strong></div>
+              </div>
+            </article>
+
+            <article class="panel span-4">
+              <div class="panel-head"><div><h3>Risk Monitor</h3><p>Current pressure points.</p></div></div>
+              <div id="dashboardRiskList" class="stack-list"></div>
+              <div class="risk-summary" id="dashRiskSummary">No major risk detected.</div>
+            </article>
+
+            <article class="panel span-7">
+              <div class="panel-head">
+                <div><h3>Study Trend</h3><p>Recent actual study time.</p></div>
+                <div class="segmented">
+                  <button class="active" data-chart-period="7">7D</button>
+                  <button data-chart-period="30">30D</button>
+                  <button data-chart-period="90">90D</button>
+                </div>
+              </div>
+              <div id="dashboardStudyChart" class="chart"></div>
+            </article>
+
+            <article class="panel span-5">
+              <div class="panel-head"><div><h3>Today's Plan</h3><p>Planned work and priorities.</p></div></div>
+              <div id="dashboardTodayPlan" class="stack-list"></div>
+            </article>
+
+            <article class="panel span-12">
+              <div class="panel-head"><div><h3>Upcoming</h3><p>Tests, deadlines and scheduled events.</p></div><button class="text-btn" data-page-link="planner">Open planner →</button></div>
+              <div id="dashboardUpcoming" class="table-wrap"></div>
+            </article>
+          </div>
+        </section>
+
+        <!-- ACADEMIC -->
+        <section class="page" id="page-academic">
+          <div class="page-actions">
+            <div><h2>Academic System</h2><p>Manage your subjects, topics and targets.</p></div>
+            <button class="primary-btn" data-action="add-subject">＋ Subject</button>
+          </div>
+          <div id="subjectGrid" class="subject-grid"></div>
+          <div class="two-col">
+            <article class="panel">
+              <div class="panel-head"><div><h3>Goal Tree</h3><p>Long-term targets broken into actionable goals.</p></div><button class="ghost-btn" data-action="add-goal">＋ Goal</button></div>
+              <div id="goalTree" class="goal-tree"></div>
+            </article>
+            <article class="panel">
+              <div class="panel-head"><div><h3>Academic Overview</h3><p>Topic-level progress.</p></div></div>
+              <div class="table-wrap"><table><thead><tr><th>Subject</th><th>Topic</th><th>Progress</th><th>Priority</th><th>Status</th></tr></thead><tbody id="academicTableBody"></tbody></table></div>
+            </article>
+          </div>
+        </section>
+
+        <!-- PLANNER -->
+        <section class="page" id="page-planner">
+          <div class="page-actions">
+            <div><h2>Planner</h2><p>Plan your day without losing sight of the week.</p></div>
+            <button class="primary-btn" data-action="add-plan">＋ Plan block</button>
+          </div>
+          <div class="planner-tabs">
+            <button class="planner-tab active" data-planner-tab="daily">Daily</button>
+            <button class="planner-tab" data-planner-tab="weekly">Weekly</button>
+            <button class="planner-tab" data-planner-tab="calendar">Calendar</button>
+            <button class="planner-tab" data-planner-tab="master">Master Timetable</button>
+          </div>
+
+          <div class="planner-tab-panel active" data-planner-panel="daily">
+            <div class="planner-toolbar"><input type="date" id="plannerDate"><div class="gap-card"><span>Planned gap</span><strong id="plannedGapValue">0m</strong></div><div class="gap-card"><span>Actual gap</span><strong id="actualGapValue">0m</strong></div><div id="gapResult" class="pill">On track</div></div>
+            <div id="plannerTimeline" class="timeline"></div>
+          </div>
+
+          <div class="planner-tab-panel" data-planner-panel="weekly">
+            <div id="weeklyGrid" class="weekly-grid"></div>
+          </div>
+
+          <div class="planner-tab-panel" data-planner-panel="calendar">
+            <div class="calendar-head"><button class="icon-btn" data-action="calendar-prev">‹</button><h3 id="calendarMonth">Month</h3><button class="icon-btn" data-action="calendar-next">›</button></div>
+            <div id="calendarGrid" class="calendar-grid"></div>
+          </div>
+
+          <div class="planner-tab-panel" data-planner-panel="master">
+            <div id="masterTimetable" class="master-timetable"></div>
+          </div>
+        </section>
+
+        <!-- STUDY -->
+        <section class="page" id="page-study">
+          <div class="page-actions"><div><h2>Study Tracker</h2><p>Turn planned time into real focused work.</p></div></div>
+          <div class="study-grid">
+            <article class="panel timer-panel">
+              <div class="panel-head"><div><h3>Focus Timer</h3><p id="timerStatusText">Ready to study.</p></div><span id="timerStatus" class="pill">Ready</span></div>
+              <div id="studyTimerDisplay" class="timer-display">00:00:00</div>
+              <div class="timer-form">
+                <label>Subject<select id="timerSubject"></select></label>
+                <label>Topic<select id="timerTopic"></select></label>
+                <label>Planned minutes<input id="timerPlannedMinutes" type="number" min="1" value="60"></label>
+              </div>
+              <div class="timer-actions">
+                <button class="primary-btn" data-action="timer-start">Start</button>
+                <button class="ghost-btn" data-action="timer-pause">Pause</button>
+                <button class="ghost-btn" data-action="timer-stop">Stop & Save</button>
+                <button class="text-btn" data-action="timer-reset">Reset</button>
+              </div>
+            </article>
+            <div class="mini-stat-grid">
+              <article class="metric-card"><span>Today</span><strong id="timerTodayHours">0h</strong></article>
+              <article class="metric-card"><span>This Week</span><strong id="timerWeekHours">0h</strong></article>
+              <article class="metric-card"><span>This Month</span><strong id="timerMonthHours">0h</strong></article>
+            </div>
+            <article class="panel span-12"><div class="panel-head"><div><h3>Study Distribution</h3><p>Where your time is going.</p></div></div><div id="studyDistribution" class="distribution-list"></div><div id="timerStudyChart" class="chart"></div></article>
+          </div>
+        </section>
+
+        <!-- TESTS -->
+        <section class="page" id="page-tests">
+          <div class="page-actions"><div><h2>Tests</h2><p>Measure performance and automatically expose weak areas.</p></div><button class="primary-btn" data-action="add-test">＋ Record test</button></div>
+          <div class="metric-grid four">
+            <article class="metric-card"><span>Tests</span><strong id="testsCount">0</strong></article>
+            <article class="metric-card"><span>Average</span><strong id="testsAverage">0%</strong></article>
+            <article class="metric-card"><span>Accuracy</span><strong id="testsAccuracy">0%</strong></article>
+            <article class="metric-card"><span>Best</span><strong id="testsBest">0%</strong></article>
+          </div>
+          <div class="two-col">
+            <article class="panel"><div class="panel-head"><div><h3>Test History</h3></div></div><div class="table-wrap"><table><thead><tr><th>Test</th><th>Date</th><th>Score</th><th>Accuracy</th><th>Subject</th></tr></thead><tbody id="testsTableBody"></tbody></table></div></article>
+            <article class="panel"><div class="panel-head"><div><h3>Weak Areas</h3><p>Topics that need attention.</p></div></div><div id="weakAreasRanking" class="ranking-list"></div></article>
+          </div>
+          <article class="panel"><div class="panel-head"><div><h3>Performance Trend</h3></div></div><div id="testTrendChart" class="chart"></div></article>
+        </section>
+
+        <!-- REVISION -->
+        <section class="page" id="page-revision">
+          <div class="page-actions"><div><h2>Smart Revision</h2><p>Review at the right time instead of rereading everything.</p></div><button class="primary-btn" data-action="add-revision">＋ Add revision</button></div>
+          <div class="metric-grid three">
+            <article class="metric-card"><span>Overdue</span><strong id="revisionOverdueCount">0</strong></article>
+            <article class="metric-card"><span>Due Today</span><strong id="revisionDueCount">0</strong></article>
+            <article class="metric-card"><span>Upcoming</span><strong id="revisionUpcomingCount">0</strong></article>
+          </div>
+          <div class="revision-columns">
+            <article class="panel"><div class="panel-head"><h3>Overdue</h3></div><div id="revisionOverdueList" class="stack-list"></div></article>
+            <article class="panel"><div class="panel-head"><h3>Due Today</h3></div><div id="revisionDueList" class="stack-list"></div></article>
+            <article class="panel"><div class="panel-head"><h3>Upcoming</h3></div><div id="revisionUpcomingList" class="stack-list"></div></article>
+          </div>
+        </section>
+
+        <!-- MISTAKES -->
+        <section class="page" id="page-mistakes">
+          <div class="page-actions"><div><h2>Mistake Bank</h2><p>Every mistake becomes a future learning signal.</p></div><button class="primary-btn" data-action="add-mistake">＋ Log mistake</button></div>
+          <div class="metric-grid three">
+            <article class="metric-card"><span>Total</span><strong id="mistakeTotal">0</strong></article>
+            <article class="metric-card"><span>Open</span><strong id="mistakeOpen">0</strong></article>
+            <article class="metric-card"><span>Conceptual</span><strong id="mistakeConceptual">0</strong></article>
+          </div>
+          <article class="panel"><div class="panel-head"><div><h3>Mistake Queue</h3><p>Resolve, revise and close recurring errors.</p></div></div><div id="mistakeList" class="mistake-list"></div></article>
+        </section>
+
+        <!-- INTELLIGENCE -->
+        <section class="page" id="page-intelligence">
+          <div class="page-actions"><div><h2>Academic Intelligence</h2><p>Decision support built from your own data.</p></div></div>
+          <div class="intel-hero">
+            <div class="readiness-ring"><svg viewBox="0 0 120 120"><circle class="ring-bg" cx="60" cy="60" r="52"/><circle id="intelRingProgress" class="ring-progress" cx="60" cy="60" r="52"/></svg><div><strong id="intelReadiness">0%</strong><span id="intelReadinessLabel">Readiness</span></div></div>
+            <div><h2 id="intelForecast">Forecast loading…</h2><p id="intelForecastNote">PAOS is analysing your study, test, revision and backlog signals.</p></div>
+          </div>
+          <div class="metric-grid four">
+            <article class="metric-card"><span>Risk Score</span><strong id="intelRiskScore">0</strong></article>
+            <article class="metric-card"><span>Backlog</span><strong id="intelBacklogCount">0</strong></article>
+            <article class="metric-card"><span>Weak Topics</span><strong id="intelWeakCount">0</strong></article>
+            <article class="metric-card"><span>Next Action</span><strong id="intelNextAction">—</strong></article>
+          </div>
+          <div class="two-col">
+            <article class="panel"><div class="panel-head"><h3>Backlog Pressure</h3></div><div id="backlogPressureChart" class="chart"></div></article>
+            <article class="panel"><div class="panel-head"><h3>Risk Factors</h3></div><div id="intelRiskList" class="stack-list"></div></article>
+          </div>
+          <article class="panel"><div class="panel-head"><h3>Weak Topics</h3></div><div id="intelWeakTopics" class="ranking-list"></div></article>
+        </section>
+
+        <!-- DISCIPLINE -->
+        <section class="page" id="page-discipline">
+          <div class="page-actions"><div><h2>Discipline System</h2><p>Consistency is measured, not guessed.</p></div><button class="primary-btn" data-action="add-habit">＋ Habit</button></div>
+          <div class="intel-hero">
+            <div class="readiness-ring"><svg viewBox="0 0 120 120"><circle class="ring-bg" cx="60" cy="60" r="52"/><circle id="disciplineRingProgress" class="ring-progress" cx="60" cy="60" r="52"/></svg><div><strong id="disciplineScore">0%</strong><span>Discipline</span></div></div>
+            <div><h2>Build a system you can repeat.</h2><p>Plan adherence, habits and backlog control contribute to the score.</p></div>
+          </div>
+          <div class="score-breakdown">
+            <div><span>Habits</span><strong id="scoreHabit">0%</strong></div>
+            <div><span>Plan adherence</span><strong id="scorePlan">0%</strong></div>
+            <div><span>Backlog control</span><strong id="scoreBacklog">0%</strong></div>
+          </div>
+          <div class="two-col">
+            <article class="panel"><div class="panel-head"><h3>Habits</h3></div><div id="habitList" class="habit-list"></div></article>
+            <article class="panel"><div class="panel-head"><h3>Life Log</h3><button class="ghost-btn" data-action="add-life-log">＋ Log</button></div><div id="lifeLogList" class="stack-list"></div></article>
+          </div>
+          <article class="panel"><div class="panel-head"><h3>Achievements</h3></div><div id="achievementsGrid" class="achievement-grid"></div></article>
+        </section>
+
+        <!-- ANALYTICS -->
+        <section class="page" id="page-analytics">
+          <div class="page-actions"><div><h2>Analytics</h2><p>See the system, not just isolated numbers.</p></div><button class="ghost-btn" data-action="export">Export data</button></div>
+          <div class="metric-grid six">
+            <article class="metric-card"><span>Readiness</span><strong id="analyticsReadiness">0%</strong></article>
+            <article class="metric-card"><span>Discipline</span><strong id="analyticsDiscipline">0%</strong></article>
+            <article class="metric-card"><span>Attendance</span><strong id="analyticsAttendance">0%</strong></article>
+            <article class="metric-card"><span>Study Hours</span><strong id="analyticsStudyHours">0h</strong></article>
+            <article class="metric-card"><span>Study Gap</span><strong id="analyticsGap">0h</strong></article>
+            <article class="metric-card"><span>Backlog</span><strong id="analyticsBacklog">0</strong></article>
+          </div>
+          <article class="panel"><div class="panel-head"><h3>Study Hours</h3></div><div id="analyticsStudyChart" class="chart"></div></article>
+          <div class="two-col">
+            <article class="panel"><div class="panel-head"><h3>Subject Comparison</h3></div><div id="subjectComparisonChart" class="chart"></div></article>
+            <article class="panel"><div class="panel-head"><h3>Attendance</h3></div><div id="attendanceChart" class="chart"></div></article>
+          </div>
+          <article class="panel"><div class="panel-head"><h3>Backlog Trend</h3></div><div id="backlogTrendChart" class="chart"></div></article>
+          <article class="report-card"><div><span>Academic Report</span><h2 id="reportGrade">—</h2></div><p id="reportNarrative">Your report will appear here after PAOS analyses your data.</p></article>
+        </section>
+
+        <!-- SETTINGS -->
+        <section class="page" id="page-settings">
+          <div class="page-actions"><div><h2>Settings</h2><p>Make PAOS fit your academic life.</p></div></div>
+          <div class="settings-grid">
+            <article class="panel">
+              <div class="panel-head"><h3>Profile & Targets</h3></div>
+              <div class="form-grid">
+                <label>Name<input id="settingsName" type="text"></label>
+                <label>Target / exam<input id="settingsTarget" type="text"></label>
+                <label>Daily target (hours)<input id="settingsDailyTarget" type="number" min="0"></label>
+                <label>Weekly target (hours)<input id="settingsWeeklyTarget" type="number" min="0"></label>
+                <label>Wake time<input id="settingsWake" type="time"></label>
+                <label>Sleep time<input id="settingsSleep" type="time"></label>
+              </div>
+              <button class="primary-btn" data-action="save-settings">Save settings</button>
+            </article>
+            <article class="panel">
+              <div class="panel-head"><h3>System Controls</h3></div>
+              <div class="setting-list">
+                <label class="switch-row"><span><strong>Notifications</strong><small>Show important reminders.</small></span><input id="settingNotifications" type="checkbox"><i></i></label>
+                <label class="switch-row"><span><strong>Adaptive planning</strong><small>Adjust recommendations from actual progress.</small></span><input id="settingAdaptive" type="checkbox"><i></i></label>
+                <label class="switch-row"><span><strong>Smart revision</strong><small>Automatically schedule revision intervals.</small></span><input id="settingSmartRevision" type="checkbox"><i></i></label>
+                <label class="switch-row"><span><strong>Risk engine</strong><small>Calculate academic pressure signals.</small></span><input id="settingRisk" type="checkbox"><i></i></label>
+              </div>
+            </article>
+            <article class="panel">
+              <div class="panel-head"><h3>Appearance</h3></div>
+              <div class="appearance-options">
+                <button class="appearance-option" data-theme="dark">Dark</button>
+                <button class="appearance-option" data-theme="light">Light</button>
+                <button class="appearance-option" data-theme="system">System</button>
+              </div>
+            </article>
+            <article class="panel">
+              <div class="panel-head"><h3>Data</h3></div>
+              <p class="muted">PAOS stores data locally in your browser. Export a backup before resetting.</p>
+              <div class="button-row">
+                <button class="ghost-btn" data-action="export">Export JSON</button>
+                <button class="ghost-btn" data-action="import">Import JSON</button>
+                <button class="danger-btn" data-action="reset">Reset app</button>
+              </div>
+            </article>
+          </div>
+        </section>
+
+      </div>
+    </main>
+  </div>
+
+  <!-- MODAL -->
+  <div id="modalBackdrop" class="modal-backdrop" hidden>
+    <div id="modalWindow" class="modal" role="dialog" aria-modal="true">
+      <div class="modal-head"><h3 id="modalTitle">Add</h3><button class="icon-btn" data-action="close-modal">×</button></div>
+      <div id="modalBody" class="modal-body"></div>
+      <div id="modalFooter" class="modal-footer"></div>
+    </div>
+  </div>
+
+  <!-- DRAWER -->
+  <div id="drawerBackdrop" class="drawer-backdrop" hidden>
+    <aside class="drawer">
+      <button class="icon-btn drawer-close" data-action="close-drawer">×</button>
+      <div id="drawerContent"></div>
+    </aside>
+  </div>
+
+  <!-- TOAST -->
+  <div id="toast" class="toast"><span id="toastText">Saved</span></div>
+
+  <input type="file" id="importFile" accept="application/json" hidden>
+
+  <script src="app.js"></script>
+</body>
+</html>
